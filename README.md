@@ -10,7 +10,7 @@
 
 Hier finden sich alle Systemprompts meiner Gemini Gems
 
-Siehe: [verifizieren.md](verifizieren.md)
+Siehe: [verifizieren](verifizieren.txt)
 
 
 ## **❗Achtung❗**
