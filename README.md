@@ -10,5 +10,8 @@
 
 Hier finden sich alle Systemprompts meiner Gemini Gems
 
+Siehe: [verifizieren.md](verifizieren.md)
+
+
 ## **❗Achtung❗**
 Die Prompts sind absolut nicht gegen Injection abgesichert. Ich hab mir das **Hardening gespart**, also nutzt die Dinger auf garkeinen Fall für irgendwelche öffentlichen Bots oder Automatisierungen.
