@@ -10,12 +10,16 @@
 
 Hier finden sich alle Systemprompts meiner Gemini Gems
 
-## 🖇️ Die Prompts:
--[verifizieren](verifizieren.txt)
--[Diesel-Preis-Rechner](Diesel-Preis-Rechner.txt) 
--[GitHub-Secrets-Review](GitHub-Secrets-Review.txt)
--[Logo-Generator](Logo-Generator.txt)
--[overleaf-user-control](overleaf-user-control.txt)
+## 🖇️ Die Prompts
+
+| Prompt | Beschreibung |
+|--------|--------------|
+| [Verifizieren](verifizieren.txt) | Prüft Aussagen und Texte auf Richtigkeit und Quellenlage |
+| [Diesel-Preis-Rechner](Diesel-Preis-Rechner.txt) | Berechnet durschnitlichen Dieselpreise in der Nähe |
+| [GitHub-Secrets-Review](GitHub-Secrets-Review.txt) | Security- und Leak-Check für Repos |
+| [Logo-Generator](Logo-Generator.txt) | Prompt für Logo Generierung |
+| [Overleaf User Control](overleaf-user-control.txt) | Verwaltung von Overleaf-Usern |
+
 
 
 
