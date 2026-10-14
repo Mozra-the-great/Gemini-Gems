@@ -1,0 +1,61 @@
+name: CI
+
+# Static prompt repo: the only check is that every prompt file is usable text.
+# The job id `prompts` is meant to be a required status check; there is deliberately
+# NO workflow-level `paths:` filter (convention C1): a required check whose workflow
+# does not start is reported as pending forever, not as skipped.
+#
+# Secret scanning lives in secret-scan.yml (job `gitleaks`), actionlint/zizmor in
+# workflow-lint.yml. Public repo => GitHub-hosted `ubuntu-latest` (free).
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prompts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Every tracked *.txt prompt must be non-empty, valid UTF-8 (the prompts contain
+      # umlauts and emoji, a wrong encoding garbles them silently) and free of NUL bytes.
+      - name: Check prompt files
+        run: |
+          list=$(mktemp)
+          git ls-files '*.txt' > "$list"
+          status=0
+          count=0
+          while IFS= read -r f; do
+            count=$((count + 1))
+            if [ ! -s "$f" ]; then
+              echo "::error file=$f::empty prompt file"
+              status=1
+            elif ! iconv -f UTF-8 -t UTF-8 "$f" > /dev/null 2>&1; then
+              echo "::error file=$f::not valid UTF-8"
+              status=1
+            elif [ "$(tr -d '\000' < "$f" | wc -c)" -ne "$(wc -c < "$f")" ]; then
+              echo "::error file=$f::contains NUL bytes"
+              status=1
+            fi
+          done < "$list"
+          rm -f "$list"
+          echo "checked $count prompt file(s)"
+          if [ "$count" -eq 0 ]; then
+            echo "::error::no *.txt prompt files found"
+            status=1
+          fi
+          exit "$status"
